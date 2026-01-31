@@ -1,0 +1,22 @@
+{
+  "pizzerias": [
+    {
+      "name": "Mangiare",
+      "address": "Arminius Markthalle, Moabit, Berlin",
+      "location": null,
+      "rating": null,
+      "review": null,
+      "visited_at": null
+    }
+  ],
+  "wanted": [
+    {
+      "name": "Prometheo",
+      "address": "Berlin",
+      "location": null,
+      "rating": null,
+      "review": null,
+      "visited_at": null
+    }
+  ]
+}

@@ -45,7 +45,7 @@ async def create_pizzeria(
     current_user: User = Depends(get_current_user),
 ):
     """Create a new pizzeria. Requires authentication."""
-    db_pizzeria = Pizzeria.model_validate(pizzeria)
+    db_pizzeria = Pizzeria(**pizzeria.to_db_model())
     session.add(db_pizzeria)
     await session.commit()
     await session.refresh(db_pizzeria)

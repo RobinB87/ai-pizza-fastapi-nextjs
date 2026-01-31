@@ -69,3 +69,25 @@ async def test_create_and_get_pizzeria(async_client):
     pizzerias = response.json()
     assert len(pizzerias) == 1
     assert pizzerias[0]["name"] == "Gazzo"
+
+
+@pytest.mark.asyncio
+async def test_create_pizzeria_with_location(async_client):
+    """Test that location is properly wrapped as {lat, lng}."""
+    auth_header = await get_auth_header(async_client)
+    pizzeria_data = {
+        "name": "Mater Pizzeria",
+        "address": "Berlin",
+        "location": {"lat": 52.48585, "lng": 13.43635},
+        "rating": 5.0,
+    }
+    response = await async_client.post(
+        "/pizzerias", json=pizzeria_data, headers=auth_header
+    )
+    assert response.status_code == 201
+
+    pizzeria = response.json()
+    assert pizzeria["name"] == "Mater Pizzeria"
+    assert pizzeria["location"] == {"lat": 52.48585, "lng": 13.43635}
+    assert "lat" not in pizzeria  # Should not have flat lat/lng
+    assert "lng" not in pizzeria
