@@ -11,5 +11,11 @@ class Settings(BaseSettings):
     database_url: str
     google_maps_api_key: str | None = None
 
+    # JWT settings
+    secret_key: str
+    algorithm: str = "HS256"
+    access_token_expire_minutes: int = 30
+    refresh_token_expire_days: int = 7
+
 
 settings = Settings()

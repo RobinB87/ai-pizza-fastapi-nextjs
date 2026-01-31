@@ -1,8 +1,14 @@
+import os
+
 import pytest
 from httpx import ASGITransport, AsyncClient
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
 from sqlmodel import SQLModel
+
+# Set test environment variables before importing app modules
+os.environ["SECRET_KEY"] = "test-secret-key-for-testing-only-do-not-use-in-production"
+os.environ["DATABASE_URL"] = "sqlite+aiosqlite:///:memory:"
 
 from app.database import get_session
 from app.main import app

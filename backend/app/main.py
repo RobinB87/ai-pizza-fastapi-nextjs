@@ -4,6 +4,7 @@ from fastapi import Depends, FastAPI
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlmodel import select
 
+from app.auth import User, auth_router, get_current_user
 from app.database import create_db_and_tables, get_session
 from app.models import Pizzeria, PizzeriaCreate, PizzeriaRead
 
@@ -20,6 +21,8 @@ app = FastAPI(
     version="0.1.0",
     lifespan=lifespan,
 )
+
+app.include_router(auth_router)
 
 
 @app.get("/")
@@ -39,8 +42,9 @@ async def get_all_pizzerias(session: AsyncSession = Depends(get_session)):
 async def create_pizzeria(
     pizzeria: PizzeriaCreate,
     session: AsyncSession = Depends(get_session),
+    current_user: User = Depends(get_current_user),
 ):
-    """Create a new pizzeria."""
+    """Create a new pizzeria. Requires authentication."""
     db_pizzeria = Pizzeria.model_validate(pizzeria)
     session.add(db_pizzeria)
     await session.commit()
